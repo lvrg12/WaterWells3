@@ -52,7 +52,7 @@ public class GenerateWells : MonoBehaviour
 	{
         SetTerrain();
 		SetWells();
-		//SetUGWater();
+		// SetUGWater();
 		UpdateColors();
 
         mainSlider = GameObject.Find("Slider").GetComponent<Slider>();
@@ -189,8 +189,8 @@ public class GenerateWells : MonoBehaviour
         }
         else
         {
-            terr = Instantiate(lubbock_map, new Vector3 (0,1.9f, 0), Quaternion.identity);
-            datafile = "Lubbock_optimized";
+            terr = Instantiate(lubbock_map, new Vector3 (0,0,0), Quaternion.identity);
+            datafile = "WellMain_optimized";
             coords = lines[1].Split(',');
         }
 
@@ -209,18 +209,16 @@ public class GenerateWells : MonoBehaviour
         float up = coor[2];
         float down = coor[3];
 
-		TextAsset txtAsset = (TextAsset)Resources.Load(datafile+"WE", typeof(TextAsset));
-		TextAsset txtAssetST = (TextAsset)Resources.Load(datafile+"ST", typeof(TextAsset));
+		TextAsset txtAsset = (TextAsset)Resources.Load(datafile, typeof(TextAsset));
 		string[] lines = txtAsset.text.Split('\n');
-        string[] linesST = txtAssetST.text.Split('\n');
 		scale = 0.0625f;
         int num_years = 20;
 
         for(int index =1; index < lines.Length-1; index++)
         {
             string[] values = lines[index].Split(',');
-			float latitude = float.Parse(values[2]);
-			float longitude = float.Parse(values[3]);
+			float latitude = float.Parse(values[4]);
+			float longitude = float.Parse(values[5]);
 
 			if (longitude >= left && longitude <= right)
 			{
@@ -228,8 +226,8 @@ public class GenerateWells : MonoBehaviour
 				{
 					float xPos = (longitude - left) * 500f / (right - left);
 					float zPos = (latitude - down) * 500f / (up - down);
-                    float well_depth = float.Parse(values[4]);
-			        float land_el = float.Parse(values[5]);
+                    float well_depth = float.Parse(values[15]);
+			        float land_el = float.Parse(values[16]);
                     string[] water_elString = new string[num_years];
                     string[] thicknessString = new string[num_years];
                     Array.Copy(values,7,water_elString,0,num_years);
